@@ -1,0 +1,37 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="over" [(opened)]="sidenavOpen">
+    <mat-checkbox [checked]="options.displayMode" (change)="updateDisplayMode($event)">Block Display Mode</mat-checkbox>
+    <mat-checkbox [checked]="options.throwOnError" (change)="updateThrowOnError($event)">Throw On Error</mat-checkbox>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar-row>
+      <a (click)="openSidenav()">
+        <mat-icon>menu</mat-icon>
+      </a>
+    </mat-toolbar-row>
+
+    <div style="height: 300px">
+      <as-split direction="vertical" gutterSize="1">
+        <as-split-area size="50">
+          <mat-form-field style="width: 100%;">
+            <mat-label>KaTeX equations here</mat-label>
+            <textarea matInput mat-autosize matAutosizeMinRows="5" [(ngModel)]="equation"></textarea>
+          </mat-form-field>
+        </as-split-area>
+        <as-split-area size="50">
+          <mat-tab-group [(selectedIndex)]="tabIndex">
+            <mat-tab label="result">
+              <app-formula-block [equation]="equation" [options]="options" (error)="logKatexError($event)" (parsed)="clearError($event)"></app-formula-block>
+            </mat-tab>
+            <mat-tab label="log">
+              {{ katexLog }}
+            </mat-tab>
+          </mat-tab-group>
+        </as-split-area>
+      </as-split>
+
+    </div>
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
